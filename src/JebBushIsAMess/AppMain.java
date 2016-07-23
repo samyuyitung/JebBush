@@ -28,7 +28,7 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon startScreen = new ImageIcon("start.jpg");
 	ImageIcon background = new ImageIcon("background.jpg");
 	ImageIcon gameOver = new ImageIcon("gameover.jpg");
-
+	ImageIcon winScreen = new ImageIcon("winned.jpg");
 	static finalBosos finalBoss;
 
 	static List<Enemy> enemies;
@@ -38,15 +38,19 @@ public class AppMain implements KeyListener, ActionListener {
 
 	int gameState = 1; // Start screen
 	int level;
+	boolean win;
 
-	void reset(){
+	final int BOSS_LEVEL = 10;
+
+	void reset() {
 		finalBoss = new finalBosos(300, 500);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
 		level = 1;
-		
+		win = false;
+
 	}
-	
+
 	public AppMain() {
 		frame.addKeyListener(this);
 		frame.setSize(width, height);
@@ -63,33 +67,40 @@ public class AppMain implements KeyListener, ActionListener {
 				drawStartScreen();
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 			} else if (gameState == 2) {
-				
+
 				g.drawImage(background.getImage(), 0, 0, this);
 				g.setColor(Color.black);
 				g.drawString("Level: " + level, 10, 700);
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
-				if(finalBoss.isAlive()) {
+				if (level == BOSS_LEVEL && finalBoss.isAlive()) {
 					finalBoss.drawBoss(g, this);
 				}
 			} else if (gameState == 3) {
-				g.drawImage(gameOver.getImage(), 0, 0, this);
+
+				if (win)
+					g.drawImage(winScreen.getImage(), 0, 0, this);
+				else
+					g.drawImage(gameOver.getImage(), 0, 0, this);
 			}
 		}
 
 	}
-	
-	
-	public void nextLevel(){
-		makeEnemies(++level);
+
+	public void nextLevel() {
+		if (level < BOSS_LEVEL)
+			makeEnemies(++level);
 	}
+
 	public void start() {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					if(enemies.size() == 0){
+					if (level < BOSS_LEVEL && enemies.size() == 0) {
 						nextLevel();
+					} else if (level == BOSS_LEVEL && !finalBoss.isAlive()) {
+						win = true;
 					}
 					player.move();
 					for (Enemy s : enemies)
@@ -106,19 +117,21 @@ public class AppMain implements KeyListener, ActionListener {
 						if (b.fly(width))
 							Player.getBullets().remove(b);
 					}
-					if(finalBoss.doSomething(player.x_pos, player.y_pos)) {
-						player.decrementHealth();
-					}
-					for (Bullet b : Player.getBullets()) {
-						if (b.checkHit(finalBoss.x, finalBoss.y, finalBoss.width, finalBoss.height)) {
-							System.out.println("GIT");
-							finalBoss.decrementHealth();
-							Player.getBullets().remove(b);
-						}	
-						if (b.fly(width))
-							Player.getBullets().remove(b);
-						}
+					if (level == BOSS_LEVEL) {
 
+						if (finalBoss.doSomething(player.x_pos, player.y_pos)) {
+							player.decrementHealth();
+						}
+						for (Bullet b : Player.getBullets()) {
+							if (b.checkHit(finalBoss.x, finalBoss.y, finalBoss.width, finalBoss.height)) {
+								System.out.println("GIT");
+								finalBoss.decrementHealth();
+								Player.getBullets().remove(b);
+							}
+							if (b.fly(width))
+								Player.getBullets().remove(b);
+						}
+					}
 				}
 
 				draw.repaint();
@@ -143,7 +156,7 @@ public class AppMain implements KeyListener, ActionListener {
 
 		public void run() {
 
-			while (!player.getIsDead()) {
+			while (!win && !player.getIsDead()) {
 				try {
 					sleep(100);
 				} catch (Exception e) {
@@ -181,6 +194,11 @@ public class AppMain implements KeyListener, ActionListener {
 
 	void drawGameBoard() {
 		frame.remove(jpane);
+		frame.requestFocus();
+	}
+
+	void drawGameOver() {
+		gameState = 3;
 		jpane.setLayout(new GridLayout(1, 1));
 		startButton.setOpaque(true);
 		startButton.setContentAreaFilled(false);
@@ -188,11 +206,6 @@ public class AppMain implements KeyListener, ActionListener {
 		startButton.addActionListener(this);
 		jpane.add(startButton);
 		frame.add(jpane);
-		frame.requestFocus();
-	}
-
-	void drawGameOver() {
-		gameState = 3;
 		frame.revalidate();
 		frame.repaint();
 	}
@@ -222,7 +235,7 @@ public class AppMain implements KeyListener, ActionListener {
 			break;
 		case KeyEvent.VK_UP:
 			if (!player.jumping)
-				player.setYSpeed(50	);
+				player.setYSpeed(50);
 			break;
 
 		case KeyEvent.VK_SPACE:
