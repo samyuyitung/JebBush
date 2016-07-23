@@ -81,7 +81,7 @@ public class Enemy {
 		
 	}
 
-	void doSomething(int playerx) {
+	boolean doSomething(int playerx, int playery) {
 		setFacing(playerx);
 		int thing = (int) (Math.random() * 2);
 		if (thing == 1)
@@ -89,9 +89,12 @@ public class Enemy {
 		if (thing == 0)
 			shoot();
 		for (Bullet b : bullets) {
-			if (b.fly(800))
+			if(b.checkPlayerHit(playerx, playery))
+				return true;
+			else if (b.fly(800))
 				bullets.remove(b);
 		}
+		return false;
 	}
 
 }

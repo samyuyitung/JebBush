@@ -24,7 +24,7 @@ public class Bullet {
 		g.fillOval(x_pos, y_pos,10, 10);
 	}
 	
-	public boolean checkHit(int obj_x, int obj_y){
+	public boolean checkPlayerHit(int obj_x, int obj_y){
 		//above or below
 		if(y_pos + 5 > obj_y || y_pos - 5 < obj_y + 50)
 			return false;
