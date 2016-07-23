@@ -40,14 +40,14 @@ public class AppMain implements KeyListener, ActionListener {
 	int level;
 	boolean win;
 
-	final int BOSS_LEVEL = 10;
+	final int BOSS_LEVEL = 1;
 
 	void reset() {
 		finalBoss = new finalBosos(300, 400);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
 		hillaryPlane = new Hillary(0,70, 0);
-		level = 9;
+		level = 1;
 		win = false;
 
 	}

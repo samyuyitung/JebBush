@@ -23,6 +23,7 @@ public class Bullet {
 	int type;
 	int width;
 	int height;
+	int offset = 0;
 
 	public Bullet(int x, int y, int dir, int type) {
 		x_pos = x;
@@ -30,12 +31,14 @@ public class Bullet {
 		this.dir = dir;
 		this.type = type;
 		if (type == 1) {
-			if (dir == -1)
+			if (dir == -1){
 				ico = broomL.getImage();
-			else if (type == 1 && dir == 1)
+				offset = 50;
+			}else if (type == 1 && dir == 1)
 				ico = broomR.getImage();
-			width = 70;
+			width = 20;
 			height = 20;
+			
 		} else {
 			ico = poo.getImage();
 			width = height = 25;
@@ -57,8 +60,8 @@ public class Bullet {
 
 	public boolean checkHit(int obj_x, int obj_y, int obj_w, int obj_h){
 		//above or below
-		if(x_pos <= obj_x + obj_w && //far right 
-		   x_pos + width >= obj_x && //far left
+		if(x_pos + offset <= obj_x + obj_w && //far right 
+		   x_pos + width  + offset >= obj_x && //far left
 		   y_pos <= obj_y + obj_h && //bottom
 		   y_pos + height >= obj_y) // top
 			return true;

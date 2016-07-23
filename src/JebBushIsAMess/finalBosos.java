@@ -92,6 +92,8 @@ public class finalBosos {
 			move();
 		if (thing == 0)
 			shoot();
+		if(checkMolest(playerx, playery, 80,100))
+			return true;
 		for (Bullet b : bullets) {
 			if (b.checkHit(playerx, playery, 80,100)){
 				bullets.remove(b);
@@ -110,9 +112,19 @@ public class finalBosos {
 	}
 	
 	public boolean isAlive() {
-		if(health < 0) {
+		if(health <= 0) {
 			return false;
 		}
 		return true;
+	}
+
+	public boolean checkMolest(int obj_x, int obj_y, int obj_w, int obj_h) {
+		// above or below
+		if (x <= obj_x + obj_w && // far right
+				x + width >= obj_x && // far left
+				y <= obj_y + obj_h && // bottom
+				y + height >= obj_y) // top
+			return true;
+		return false;
 	}
 }

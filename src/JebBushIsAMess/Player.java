@@ -22,9 +22,10 @@ public class Player {
 	int jumpTime;
 	private int width;
 	private int height;
-
+	boolean invinsible = false;
 	private boolean isDead;
 	public int health = 10;
+	int invinsibleCount = 0;
 	private static List<Bullet> bullets = new CopyOnWriteArrayList<>();
 	ImageIcon trump = new ImageIcon("trump.png");
 
@@ -39,30 +40,30 @@ public class Player {
 		MAX_WIDTH = width;
 		health += level;
 	}
-	public void move(){
-		if(x_pos < 0) {
+
+	public void move() {
+		if (x_pos < 0) {
 			x_pos = 0;
-		}
-		else if (x_pos > MAX_WIDTH - width) {
-			x_pos = MAX_WIDTH- width;
+		} else if (x_pos > MAX_WIDTH - width) {
+			x_pos = MAX_WIDTH - width;
 		}
 		x_pos += xSpeed;
 		if (xSpeed < 0)
 			facing = -1;
 		else
 			facing = 1;
-		if(ySpeed > 0){
-		y_pos -= ySpeed;
-		ySpeed = 0;
-		} else if(jumpTime > 10){
+		if (ySpeed > 0) {
+			y_pos -= ySpeed;
+			ySpeed = 0;
+		} else if (jumpTime > 10) {
 			y_pos += 50;
 			jumpTime = 0;
 			jumping = false;
-		}			
-		if(jumping)
-			jumpTime ++;
+		}
+		if (jumping)
+			jumpTime++;
 	}
-	
+
 	public void setXSpeed(int speed) {
 		xSpeed = speed;
 	}
@@ -71,14 +72,14 @@ public class Player {
 		ySpeed = speed;
 		jumping = true;
 	}
-	
-	static List<Bullet> getBullets(){
+
+	static List<Bullet> getBullets() {
 		return bullets;
 	}
 
 	public void shootABullet() {
 		if (bullets.size() < 10)
-			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing, 1));
+			bullets.add(new Bullet(x_pos + width / 2, y_pos + height / 2, facing, 1));
 
 	}
 
@@ -86,26 +87,34 @@ public class Player {
 		return isDead;
 	}
 
-	public void decrementHealth(){
-		health --;
-		if(health == 0)
-			isDead = true;
+	public void decrementHealth() {
+		if (!invinsible) {
+			invinsible = true;
+			health--;
+			if (health == 0)
+				isDead = true;
+		}
+		if(invinsibleCount++ > 20){
+			invinsible = false;
+					invinsibleCount = 0;
+		}
 	}
-	
+
 	// draw the player
 	public void drawPlayer(Graphics g, ImageObserver img) {
 		g.drawImage(trump.getImage(), x_pos, y_pos, img);
 		g.setColor(Color.red);
-		g.fillRect(5,5, health * 60, 50);
+		g.fillRect(5, 5, health * 60, 50);
 		for (Bullet b : bullets) {
 			b.drawShot(g, img, b.dir);
 		}
 	}
-	public void addHealth(){
-		health +=2;
-		if(health > 10)
+
+	public void addHealth() {
+		health += 2;
+		if (health > 10)
 			health = 10;
-				
+
 	}
-	
+
 }
