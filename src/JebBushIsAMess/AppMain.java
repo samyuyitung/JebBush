@@ -29,14 +29,10 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon background = new ImageIcon("background.jpg");
 	ImageIcon gameOver = new ImageIcon("gameover.jpg");
 
-<<<<<<< 257d218e8886fee1b90ecf1b48d5008b7d602e92
-	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
-	static Player player = new Player(10, 450, width);
-	static finalBosos finalBoss = new finalBosos(300, 500);
-=======
+	static finalBosos finalBoss;
+
 	static List<Enemy> enemies;
 	static Player player;
->>>>>>> added hillary and shit
 
 	TTimer timer;
 
@@ -44,6 +40,7 @@ public class AppMain implements KeyListener, ActionListener {
 	int level;
 
 	void reset(){
+		finalBoss = new finalBosos(300, 500);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
 		level = 1;
