@@ -66,7 +66,10 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-				
+					// winConditions();
+					// block.fall();
+					// if (block.idk)
+					// block.idk = timer.fast = false;
 				}
 
 				draw.repaint();
@@ -90,6 +93,7 @@ public class AppMain implements KeyListener, ActionListener {
 		}
 
 		public void run() {
+			
 			int i = 0;
 			while (!player.getIsDead()) {
 		

@@ -6,10 +6,12 @@ import java.awt.Color;
 public class Bullet {
 	private int x_pos;
 	private int y_pos;
+	private int dir;
 	
-	public Bullet(int x, int y) {
+	public Bullet(int x, int y, int dir) {
 		x_pos = x;
 		y_pos = y;
+		this.dir = dir;
 	}
 	
 	public void moveShot(int speed) {
@@ -20,4 +22,14 @@ public class Bullet {
 		g.setColor(Color.BLACK);
 		g.fillOval(x_pos, y_pos,10, 10);
 	}
+	
+	public boolean checkHit(int obj_x, int obj_y){
+		//above or below
+		if(y_pos + 5 > obj_y || y_pos - 5 < obj_y + 50)
+			return false;
+		//if between player
+		if(x_pos - 5 <= obj_x + 50 && x_pos + 5 > obj_x - 5)
+			return true;
+		return false;
+	}	
 }

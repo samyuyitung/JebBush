@@ -12,6 +12,7 @@ public class Enemy{
 	int height;
 	int width;
 	boolean jumping;
+	int facing = 0;
 	
 	Enemy(int ax, int atype){
 		x = ax;
@@ -24,8 +25,8 @@ public class Enemy{
 	void setHeightAndWidth(int type){
 		switch(type){
 		case 1:
-			height = 80;
-			width = 69;
+			height = 50;
+			width = 50;
 			break;
 		default: 
 			height = 50;
@@ -45,15 +46,21 @@ public class Enemy{
 		}
 		else if(dir == 1){
 			x -= 10;
+			facing = -1;
 		}
 		else if(dir == 2){
 			x += 10;
+			facing = 1;
 		}	
 	}
 	
 	void drawEnemy(Graphics g){
         g.setColor(Color.red);
 		g.fillRect(x, y, width, height);
+	}
+	
+	boolean checkBulletHit(){
+		
 	}
 	
 	
