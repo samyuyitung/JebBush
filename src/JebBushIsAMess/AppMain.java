@@ -31,7 +31,6 @@ public class AppMain implements KeyListener, ActionListener {
 	Player player = new Player(10, 450);
 
 	TTimer timer;
-	Counter t;
 
 	int gameState = 1; // Start screen
 	int level = 1;
@@ -67,19 +66,14 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					// winConditions();
-					// block.fall();
-					// if (block.idk)
-					// block.idk = timer.fast = false;
+				
 				}
 
 				draw.repaint();
 			}
 		});
 		timer.start(); // pauses immediately
-		t = new Counter();
-		t.start();
-
+		
 	}
 
 	// Timer Class
@@ -98,7 +92,7 @@ public class AppMain implements KeyListener, ActionListener {
 		public void run() {
 			int i = 0;
 			while (!player.getIsDead()) {
-			
+		
 				
 				if (!pause)
 					a.actionPerformed(null);
@@ -148,13 +142,11 @@ public class AppMain implements KeyListener, ActionListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			player.moveX(-10);
@@ -178,13 +170,12 @@ public class AppMain implements KeyListener, ActionListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == startButton) {
 			gameState = 2;
 			startGame();

@@ -18,6 +18,6 @@ public class Bullet {
 	
 	public void drawShot(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.drawOval(x_pos, y_pos,10, 10);
+		g.fillOval(x_pos, y_pos,10, 10);
 	}
 }
