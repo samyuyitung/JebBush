@@ -1,5 +1,6 @@
 package JebBushIsAMess;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -22,21 +23,33 @@ public class AppMain implements KeyListener, ActionListener {
 	JFrame frame = new JFrame("Jeb Bush is a Mess");
 	int height = 685; // frame height
 	static int width = 800; // frame width
-	JButton startButton = new JButton("start");
+	JButton startButton = new JButton("");
 	JPanel jpane = new JPanel();
 	ImageIcon startScreen = new ImageIcon("start.jpg");
 	ImageIcon background = new ImageIcon("background.jpg");
-	ImageIcon gameOver = new ImageIcon("start.jpg");
+	ImageIcon gameOver = new ImageIcon("gameover.jpg");
 
+<<<<<<< 257d218e8886fee1b90ecf1b48d5008b7d602e92
 	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
 	static Player player = new Player(10, 450, width);
 	static finalBosos finalBoss = new finalBosos(300, 500);
+=======
+	static List<Enemy> enemies;
+	static Player player;
+>>>>>>> added hillary and shit
 
 	TTimer timer;
 
 	int gameState = 1; // Start screen
-	int level = 5;
+	int level;
 
+	void reset(){
+		enemies = new CopyOnWriteArrayList<>();
+		player = new Player(10, 450, width);
+		level = 1;
+		
+	}
+	
 	public AppMain() {
 		frame.addKeyListener(this);
 		frame.setSize(width, height);
@@ -53,7 +66,10 @@ public class AppMain implements KeyListener, ActionListener {
 				drawStartScreen();
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 			} else if (gameState == 2) {
+				
 				g.drawImage(background.getImage(), 0, 0, this);
+				g.setColor(Color.black);
+				g.drawString("Level: " + level, 10, 700);
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
@@ -64,8 +80,10 @@ public class AppMain implements KeyListener, ActionListener {
 		}
 
 	}
+	
+	
 	public void nextLevel(){
-		makeEnemies(level++);
+		makeEnemies(++level);
 	}
 	public void start() {
 		timer = new TTimer(1000, new ActionListener() {
@@ -82,7 +100,6 @@ public class AppMain implements KeyListener, ActionListener {
 					for (Bullet b : Player.getBullets()) {
 						for (Enemy s : enemies) {
 							if (b.checkHit(s.x, s.y, s.width, s.height)) {
-								System.out.println("GIT");
 								enemies.remove(s);
 								Player.getBullets().remove(b);
 							}
@@ -134,6 +151,7 @@ public class AppMain implements KeyListener, ActionListener {
 	// used to track the time ingame
 
 	void startGame() {
+		reset();
 		start();
 		drawGameBoard();
 		makeEnemies(level);
@@ -153,11 +171,20 @@ public class AppMain implements KeyListener, ActionListener {
 
 	void drawGameBoard() {
 		frame.remove(jpane);
+		jpane.setLayout(new GridLayout(1, 1));
+		startButton.setOpaque(true);
+		startButton.setContentAreaFilled(false);
+		startButton.setBorderPainted(false);
+		startButton.addActionListener(this);
+		jpane.add(startButton);
+		frame.add(jpane);
 		frame.requestFocus();
 	}
 
 	void drawGameOver() {
-
+		gameState = 3;
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	void makeEnemies(int level) {
@@ -185,7 +212,7 @@ public class AppMain implements KeyListener, ActionListener {
 			break;
 		case KeyEvent.VK_UP:
 			if (!player.jumping)
-				player.setYSpeed(20);
+				player.setYSpeed(50	);
 			break;
 
 		case KeyEvent.VK_SPACE:
