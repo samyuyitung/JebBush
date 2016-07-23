@@ -31,7 +31,7 @@ public class AppMain implements KeyListener, ActionListener {
 	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
 	static Player player = new Player(10, 450, width);
 	static finalBosos finalBoss = new finalBosos(300, 500);
-	static Hillary hillaryPlane = new Hillary(100, 300, 0); 
+	static Hillary hillaryPlane = new Hillary(0, 70, 0); 
 
 	TTimer timer;
 
@@ -60,6 +60,7 @@ public class AppMain implements KeyListener, ActionListener {
 					e.drawEnemy(g, this);
 				
 				hillaryPlane.drawHillary(g, this); 
+				
 				finalBoss.drawBoss(g, this);
 			} else if (gameState == 3) {
 				g.drawImage(gameOver.getImage(), 0, 0, this);
@@ -90,6 +91,9 @@ public class AppMain implements KeyListener, ActionListener {
 					}
 					
 					hillaryPlane.doSomething();
+					if (hillaryPlane.hitGround){
+						hillaryPlane = new Hillary(0, 70, 0); 
+					}
 					finalBoss.doSomething(player.x_pos);
 
 				}

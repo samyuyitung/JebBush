@@ -15,28 +15,27 @@ public class Hillary {
 	int x; 
 	int y; 
 	int type; 
-	int chance= 2000000; 
+	int chance= 30; 
+	boolean hitGround =false; 
+	
 	
 	int condition =0; 
 	
-	ImageIcon hill = new ImageIcon("hillary.jpeg");
+	ImageIcon hill = new ImageIcon("hillary.jpg");
     int MAX_WIDTH; 
-	
+	int MIN_HEIGHT=550; 
 	
 	
 	
 	
 	Hillary(int hx, int hy, int htype){
-		
 		x=hx; 
-		
 		y=hy;
 		type=htype;
 		setHeightandWidth(type); 
 		
-		
-		
 	}
+	
 	
 	public void setHeightandWidth(int type){
 		switch (type){
@@ -54,12 +53,13 @@ public class Hillary {
 	
 	public void move(){
 		
-		x+=20; 
+		x+=10; 
 		if ((int) (Math.random()*chance) == 0)
 			condition=1; 
 		else 
 			chance--; 
 			
+		System.out.println("MOVEDDDD");
 	}
 	
 	public void doSomething(){
@@ -79,16 +79,21 @@ public class Hillary {
 	
 	
 	void drawHillary(Graphics g, ImageObserver img) {
-		g.setColor(Color.green);
 		g.drawImage(hill.getImage(), x, y, img);
 	}
 	
 	public void airDeath()
-	{
+	{  
+		y+=40; 
+		System.out.println(y);
 		
-		
-		
-		chance =15;
+		if (y>900){
+			System.out.println("lmao");
+			condition=0; 
+			chance =30; 
+			hitGround =true; 
+		}
+
 	}
 	
 	
