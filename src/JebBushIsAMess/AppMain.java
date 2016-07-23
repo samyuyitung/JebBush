@@ -21,7 +21,7 @@ public class AppMain implements KeyListener, ActionListener {
 	Drawing draw = new Drawing();
 	JFrame frame = new JFrame("Jeb Bush is a Mess");
 	int height = 685; // frame height
-	int width = 800; // frame width
+	static int width = 800; // frame width
 	JButton startButton = new JButton("start");
 	JPanel jpane = new JPanel();
 	ImageIcon startScreen = new ImageIcon("start.jpg");
@@ -29,7 +29,7 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon gameOver = new ImageIcon("start.jpg");
 
 	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
-	static Player player = new Player(10, 450);
+	static Player player = new Player(10, 450, width);
 
 	TTimer timer;
 
@@ -53,9 +53,9 @@ public class AppMain implements KeyListener, ActionListener {
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 			} else if (gameState == 2) {
 				g.drawImage(background.getImage(), 0, 0, this);
-				player.drawPlayer(g);
+				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
-					e.drawEnemy(g);
+					e.drawEnemy(g, this);
 			} else if (gameState == 3) {
 				g.drawImage(gameOver.getImage(), 0, 0, this);
 			}
@@ -67,19 +67,22 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					for(Enemy s : enemies)
-						s.doSomething(player.x_pos);
-					for(Bullet b : Player.getBullets())
-						if(b.fly(width))
-							Player.getBullets().remove(Player.getBullets().indexOf(b));
 					player.move();
+					for (Enemy s : enemies)
+						if (s.doSomething(player.x_pos, player.y_pos))
+							player.decrementHealth();
+
+					for (Bullet b : Player.getBullets())
+						if (b.fly(width))
+							Player.getBullets().remove(Player.getBullets().indexOf(b));
+
 				}
 
 				draw.repaint();
 			}
 		});
 		timer.start(); // pauses immediately
-		
+
 	}
 
 	// Timer Class
@@ -96,13 +99,13 @@ public class AppMain implements KeyListener, ActionListener {
 		}
 
 		public void run() {
-			
+
 			int i = 0;
 			while (!player.getIsDead()) {
-								try{
+				try {
 					sleep(100);
-				} catch( Exception e) {
-					
+				} catch (Exception e) {
+
 				}
 				if (!pause)
 					a.actionPerformed(null);
@@ -146,8 +149,8 @@ public class AppMain implements KeyListener, ActionListener {
 		enemies.clear();
 		for (int i = 0; i < level; i++) {
 			System.out.println("made " + i);
-			int xLoc = (int)( Math.random() * (width/2 - 20)) + (width / 2);
-			enemies.add(new Enemy(xLoc, 1));
+			int xLoc = (int) (Math.random() * (width / 2 - 20)) + (width / 2);
+			enemies.add(new Enemy(xLoc, 1, width));
 		}
 	}
 
@@ -166,8 +169,8 @@ public class AppMain implements KeyListener, ActionListener {
 			player.setXSpeed(10);
 			break;
 		case KeyEvent.VK_UP:
-			if(!player.jumping)
-			player.setYSpeed(20);
+			if (!player.jumping)
+				player.setYSpeed(20);
 			break;
 
 		case KeyEvent.VK_SPACE:
@@ -183,7 +186,6 @@ public class AppMain implements KeyListener, ActionListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
 
 	}
 

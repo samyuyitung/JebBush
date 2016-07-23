@@ -2,15 +2,19 @@ package JebBushIsAMess;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 //import java.awt.Color; 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.ImageIcon;
+
 public class Player {
+	int MAX_WIDTH;
 	// variables
 	public int x_pos;
-	private int y_pos;
+	public int y_pos;
 	public int xSpeed;
 	public int ySpeed;
 	public boolean jumping;
@@ -21,15 +25,17 @@ public class Player {
 	private boolean isDead;
 	private int health = 10;
 	private static List<Bullet> bullets = new CopyOnWriteArrayList<>();
+	ImageIcon trump = new ImageIcon("trump.png");
 
 	int facing = 1;
 
 	// constructor
-	Player(int x, int y) {
+	Player(int x, int y, int width) {
 		x_pos = x;
 		y_pos = y;
 		width = 100;
 		height = 100;
+		MAX_WIDTH = width;
 	}
 	public void move(){
 		x_pos += xSpeed;
@@ -64,7 +70,7 @@ public class Player {
 
 	public void shootABullet() {
 		if (bullets.size() < 10)
-			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing));
+			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing, Color.black));
 
 	}
 
@@ -72,13 +78,15 @@ public class Player {
 		return isDead;
 	}
 
+	public void decrementHealth(){
+		health --;
+	}
 	// draw the player
-	public void drawPlayer(Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(x_pos, y_pos, width, height);
+	public void drawPlayer(Graphics g, ImageObserver img) {
+		g.drawImage(trump.getImage(), x_pos, y_pos, img);
 
 		for (Bullet b : bullets) {
-			b.drawShot(g);
+			b.drawShot(g, img, b.dir);
 		}
 	}
 
