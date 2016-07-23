@@ -17,25 +17,28 @@ public class Player {
 	public int y_pos;
 	public int xSpeed;
 	public int ySpeed;
+	public int level;
 	public boolean jumping;
 	int jumpTime;
 	private int width;
 	private int height;
 
 	private boolean isDead;
-	private int health = 10;
+	public int health = 10;
 	private static List<Bullet> bullets = new CopyOnWriteArrayList<>();
 	ImageIcon trump = new ImageIcon("trump.png");
 
 	int facing = 1;
 
 	// constructor
-	Player(int x, int y, int width) {
+	Player(int x, int y, int width, int level) {
 		x_pos = x;
 		y_pos = y;
 		this.width = 80;
 		height = 100;
 		MAX_WIDTH = width;
+		this.level = level;
+		health += level;
 	}
 	public void move(){
 		if(x_pos < 0) {
@@ -89,6 +92,7 @@ public class Player {
 		if(health == 0)
 			isDead = true;
 	}
+	
 	// draw the player
 	public void drawPlayer(Graphics g, ImageObserver img) {
 		g.drawImage(trump.getImage(), x_pos, y_pos, img);
