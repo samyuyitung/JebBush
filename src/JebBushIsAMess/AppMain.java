@@ -21,19 +21,20 @@ public class AppMain implements KeyListener, ActionListener {
 	JFrame frame = new JFrame("Jeb Bush is a Mess");
 	int height = 685; // frame height
 	int width = 800; // frame width
-	int gameState = 1; // Start screen
 	JButton startButton = new JButton("start");
-
+	JPanel jpane = new JPanel();
 	ImageIcon startScreen = new ImageIcon("start.jpg");
 	ImageIcon background = new ImageIcon("background.jpg");
 	ImageIcon gameOver = new ImageIcon("start.jpg");
 
 	List<Enemy> enemies = new ArrayList<>();
-	Player player = new Player(10,450);
-	JPanel jpane = new JPanel();
-	
+	Player player = new Player(10, 450);
+
 	TTimer timer;
 	Counter t;
+
+	int gameState = 1; // Start screen
+	int level = 1;
 
 	public AppMain() {
 		frame.addKeyListener(this);
@@ -55,9 +56,8 @@ public class AppMain implements KeyListener, ActionListener {
 				player.drawPlayer(g);
 				for (Enemy e : enemies)
 					e.drawEnemy(g);
-			}
-				else if (gameState == 3) {
-					g.drawImage(gameOver.getImage(), 0, 0, this);
+			} else if (gameState == 3) {
+				g.drawImage(gameOver.getImage(), 0, 0, this);
 			}
 		}
 
@@ -67,10 +67,10 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-//					winConditions();
-//					block.fall();
-//					if (block.idk)
-//						block.idk = timer.fast = false;
+					// winConditions();
+					// block.fall();
+					// if (block.idk)
+					// block.idk = timer.fast = false;
 				}
 
 				draw.repaint();
@@ -90,11 +90,10 @@ public class AppMain implements KeyListener, ActionListener {
 		boolean fast = false;
 		ActionListener a;
 
-		public TTimer(long adelay, ActionListener aa)
-	      { 
-	         delay = adelay;
-	         a = aa;
-	      }
+		public TTimer(long adelay, ActionListener aa) {
+			delay = adelay;
+			a = aa;
+		}
 
 		public void run() {
 			int i = 0;
@@ -134,6 +133,12 @@ public class AppMain implements KeyListener, ActionListener {
 		}
 	}
 
+	void startGame() {
+	//	timer.start();
+		drawGameBoard();
+		makeEnemies(level);
+	}
+
 	void drawStartScreen() {
 		jpane.setLayout(new GridLayout(1, 1));
 		startButton.setOpaque(true);
@@ -148,14 +153,19 @@ public class AppMain implements KeyListener, ActionListener {
 
 	void drawGameBoard() {
 		frame.remove(jpane);
-	      frame.requestFocus();
+		frame.requestFocus();
 	}
 
-	void drawGameOver(){
-		
+	void drawGameOver() {
+
 	}
-	void makeAnEnemy() {
-		enemies.add(new Enemy(100, 1));
+
+	void makeEnemies(int level) {
+		enemies.clear();
+		for (int i = 0; i < level; i++) {
+			int xLoc = (int)Math.random() * (width - 100);
+			enemies.add(new Enemy(xLoc, 1));
+		}
 	}
 
 	@Override
@@ -167,21 +177,20 @@ public class AppMain implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		switch(e.getKeyCode())
-        {
-           case KeyEvent.VK_LEFT:
-        	   player.moveX(-10);
-        	   break;
-           case KeyEvent.VK_RIGHT:
-           //   block.shift(1);
-        	   player.moveX(10);
-        	   
-              break;
-           case KeyEvent.VK_UP:
-            //  block.rotate();
-              break;
-           
-        }
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			player.moveX(-10);
+			break;
+		case KeyEvent.VK_RIGHT:
+			// block.shift(1);
+			player.moveX(10);
+
+			break;
+		case KeyEvent.VK_UP:
+			// block.rotate();
+			break;
+
+		}
 		frame.revalidate();
 		frame.repaint();
 	}
@@ -189,12 +198,6 @@ public class AppMain implements KeyListener, ActionListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		 
-	}
-
-	public static void main(String[] args) {
-
-		AppMain a = new AppMain();
 
 	}
 
@@ -203,11 +206,15 @@ public class AppMain implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == startButton) {
 			gameState = 2;
-			drawGameBoard();
-			makeAnEnemy();
+			startGame();
 		}
 		frame.revalidate();
 		frame.repaint();
 
 	}
+
+	public static void main(String[] args) {
+		AppMain a = new AppMain();
+	}
+
 }
