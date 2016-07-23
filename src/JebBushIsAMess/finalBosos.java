@@ -18,6 +18,7 @@ public class finalBosos {
 	boolean jumping;
 	List<Bullet> bullets = new CopyOnWriteArrayList<>();
 	ImageIcon img = new ImageIcon("jeb-bush.jpg");
+	private int health = 5;
 	
 	
 	finalBosos(int xPos, int yPos) {
@@ -76,24 +77,42 @@ public class finalBosos {
 	}
 	
 	void drawBoss(Graphics g, ImageObserver image) {
-		g.drawImage(img.getImage(), x, y + width, height, width + 20, image);
+		g.drawImage(img.getImage(), x, y + height, height, width + 20, image);
 		g.drawImage(img.getImage(), x, y, height, width, image);
-		g.drawImage(img.getImage(), x + 10, y - width/2, height - 20, width - 20, image);
+		g.drawImage(img.getImage(), x + 10, y - height/2, height - 20, width - 20, image);
+		g.fillRect(x, y - 80, health * 10, 20);
 		for (Bullet b : bullets)
 			b.drawShot(g, image, 2);
 	}
 	
-	void doSomething(int playerx) {
+	boolean doSomething(int playerx, int playery) {
 		setFacing(playerx);
-		int thing = (int) (Math.random() * 2);
+		int thing = (int) (Math.random() * 5);
 		if (thing == 1)
 			move();
 		if (thing == 0)
 			shoot();
 		for (Bullet b : bullets) {
-			if (b.fly(800))
+			if (b.checkHit(playerx, playery, 80,100)){
+				bullets.remove(b);
+				System.out.println("hit");
+				return true;
+				
+			}
+			else if (b.fly(800))
 				bullets.remove(b);
 		}
+		return false;
 	}
 
+	public void decrementHealth(){
+		health --;
+	}
+	
+	public boolean isAlive() {
+		if(health < 0) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -57,7 +57,9 @@ public class AppMain implements KeyListener, ActionListener {
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
-				finalBoss.drawBoss(g, this);
+				if(finalBoss.isAlive()) {
+					finalBoss.drawBoss(g, this);
+				}
 			} else if (gameState == 3) {
 				g.drawImage(gameOver.getImage(), 0, 0, this);
 			}
@@ -85,7 +87,18 @@ public class AppMain implements KeyListener, ActionListener {
 						if (b.fly(width))
 							Player.getBullets().remove(b);
 					}
-					finalBoss.doSomething(player.x_pos);
+					if(finalBoss.doSomething(player.x_pos, player.y_pos)) {
+						player.decrementHealth();
+					}
+					for (Bullet b : Player.getBullets()) {
+						if (b.checkHit(finalBoss.x, finalBoss.y, finalBoss.width, finalBoss.height)) {
+							System.out.println("GIT");
+							finalBoss.decrementHealth();
+							Player.getBullets().remove(b);
+						}	
+						if (b.fly(width))
+							Player.getBullets().remove(b);
+						}
 
 				}
 
