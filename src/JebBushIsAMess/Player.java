@@ -31,13 +31,12 @@ public class Player {
 	int facing = 1;
 
 	// constructor
-	Player(int x, int y, int width, int level) {
+	Player(int x, int y, int width) {
 		x_pos = x;
 		y_pos = y;
 		this.width = 80;
 		height = 100;
 		MAX_WIDTH = width;
-		this.level = level;
 		health += level;
 	}
 	public void move(){
