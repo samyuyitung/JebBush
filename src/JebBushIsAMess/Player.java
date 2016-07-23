@@ -1,8 +1,10 @@
 package JebBushIsAMess;
 
 import java.awt.Color;
-import java.awt.Graphics; 
+import java.awt.Graphics;
+import java.util.ArrayList;
 //import java.awt.Color; 
+import java.util.List;
 
 public class Player { 
 	// variables 
@@ -14,7 +16,7 @@ public class Player {
 	
 	private boolean isDead;
 	private int health = 10;
-	
+	private List<Bullet> bullets = new ArrayList<>();
 	
 	// constructor 
 	Player(int x, int y)  { 
@@ -32,6 +34,13 @@ public class Player {
 		y_pos += speed;
 	}
 
+	public void shootABullet(){
+		if(bullets.size() < 10)
+			bullets.add(new Bullet(x_pos,y_pos));
+		
+	}
+	
+	
 	public boolean getIsDead(){
 		return isDead;
 	}
@@ -39,9 +48,11 @@ public class Player {
 	public void drawPlayer(Graphics g) { 
 		  g.setColor(Color.blue);
 		  g.fillRect(x_pos, y_pos, width, height);
-	} 
 	
-	
+		  for(Bullet b : bullets){
+			  b.drawShot(g);
+		  }
+	}
 	
 	
 } 

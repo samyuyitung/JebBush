@@ -97,11 +97,9 @@ public class AppMain implements KeyListener, ActionListener {
 
 		public void run() {
 			int i = 0;
-			while (i < 100) {
-				i += 1;
-				try {
-				} catch (Exception e) {
-				}
+			while (!player.getIsDead()) {
+			
+				
 				if (!pause)
 					a.actionPerformed(null);
 
@@ -112,29 +110,9 @@ public class AppMain implements KeyListener, ActionListener {
 
 	// Counter class (in game time)
 	// used to track the time ingame
-	public class Counter extends Thread {
-		double seconds = 0;
-		int minutes = 0;
-
-		public void run() {
-			try {
-				while (true) {
-					sleep(100);
-					if (timer != null && !timer.pause)
-						seconds += 0.1;
-					if (seconds > 59) {
-						seconds = 0;
-						minutes++;
-
-					}
-				}
-			} catch (InterruptedException e) {
-			}
-		}
-	}
 
 	void startGame() {
-	//	timer.start();
+		// timer.start();
 		drawGameBoard();
 		makeEnemies(level);
 	}
@@ -163,7 +141,7 @@ public class AppMain implements KeyListener, ActionListener {
 	void makeEnemies(int level) {
 		enemies.clear();
 		for (int i = 0; i < level; i++) {
-			int xLoc = (int)Math.random() * (width - 100);
+			int xLoc = (int) Math.random() * (width - 100);
 			enemies.add(new Enemy(xLoc, 1));
 		}
 	}
@@ -182,17 +160,20 @@ public class AppMain implements KeyListener, ActionListener {
 			player.moveX(-10);
 			break;
 		case KeyEvent.VK_RIGHT:
-			// block.shift(1);
 			player.moveX(10);
-
 			break;
 		case KeyEvent.VK_UP:
-			// block.rotate();
+			break;
+
+		case KeyEvent.VK_SPACE:
+			player.shootABullet();
 			break;
 
 		}
+
 		frame.revalidate();
 		frame.repaint();
+
 	}
 
 	@Override
