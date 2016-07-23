@@ -33,7 +33,7 @@ public class Player {
 	Player(int x, int y, int width) {
 		x_pos = x;
 		y_pos = y;
-		width = 100;
+		this.width = 80;
 		height = 100;
 		MAX_WIDTH = width;
 	}
@@ -70,7 +70,7 @@ public class Player {
 
 	public void shootABullet() {
 		if (bullets.size() < 10)
-			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing, Color.black));
+			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing, 1));
 
 	}
 

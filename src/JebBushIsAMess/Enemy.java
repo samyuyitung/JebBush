@@ -30,7 +30,7 @@ public class Enemy {
 		MAX_WIDTH = width;
 
 	}
-
+	
 	void setHeightAndWidth(int type) {
 		switch (type) {
 		case 1:
@@ -65,7 +65,9 @@ public class Enemy {
 		else
 			facing = -1;
 	}
-
+	List<Bullet> getBullets(){
+		return bullets;
+	}
 	void drawEnemy(Graphics g, ImageObserver img) {
 		g.setColor(Color.green);
 		g.drawImage(ted.getImage(), x, y, img);
@@ -79,7 +81,7 @@ public class Enemy {
 
 	void shoot() {
 		if (bullets.size() < 2)
-			bullets.add(new Bullet(x, y, facing, Color.red));
+			bullets.add(new Bullet(x, y, facing, 2));
 
 	}
 
@@ -91,8 +93,12 @@ public class Enemy {
 		if (thing == 0)
 			shoot();
 		for (Bullet b : bullets) {
-			if (b.checkPlayerHit(playerx, playery))
+			if (b.checkPlayerHit(playerx, playery)){
+				bullets.remove(b);
+				System.out.println("hit");
 				return true;
+				
+			}
 			else if (b.fly(800))
 				bullets.remove(b);
 		}

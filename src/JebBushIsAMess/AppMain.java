@@ -70,8 +70,10 @@ public class AppMain implements KeyListener, ActionListener {
 					player.move();
 					for (Enemy s : enemies)
 						if (s.doSomething(player.x_pos, player.y_pos))
+						{
 							player.decrementHealth();
-
+						}
+						
 					for (Bullet b : Player.getBullets())
 						if (b.fly(width))
 							Player.getBullets().remove(Player.getBullets().indexOf(b));
