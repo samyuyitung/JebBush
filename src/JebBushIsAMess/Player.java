@@ -102,5 +102,11 @@ public class Player {
 			b.drawShot(g, img, b.dir);
 		}
 	}
-
+	public void addHealth(){
+		health +=2;
+		if(health > 10)
+			health = 10;
+				
+	}
+	
 }
