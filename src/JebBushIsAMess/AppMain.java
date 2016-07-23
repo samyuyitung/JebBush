@@ -31,14 +31,14 @@ public class AppMain implements KeyListener, ActionListener {
 		frame.add(draw);
 		frame.setVisible(true);
 		frame.setResizable(false);
-		startScreen();
 	}
 
 	class Drawing extends JComponent {
 		public void paint(Graphics g) {
-			if (gameState == 1)
+			if (gameState == 1){
+				startScreen();
 				g.drawImage(startScreen.getImage(), 0, 0, this);
-			else if(gameState == 2)
+			}else if(gameState == 2)
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 				
 		}	
@@ -47,12 +47,11 @@ public class AppMain implements KeyListener, ActionListener {
 	void startScreen() {
 		JPanel jpane = new JPanel();
 		jpane.setLayout(new GridLayout(1,1));
-		startButton.setOpaque(false);
+		startButton.setOpaque(true);
 		startButton.setContentAreaFilled(false);
 		startButton.setBorderPainted(false);
 		startButton.addActionListener(this);
 		jpane.add(startButton);
-		
 		frame.add(jpane);
 		frame.revalidate();
 		frame.repaint();
