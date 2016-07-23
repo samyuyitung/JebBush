@@ -69,8 +69,8 @@ public class finalBosos {
 	
 	void shoot() {
 		if (bullets.size() < 10) {
-			bullets.add(new Bullet(x, y, facing));
-			bullets.add(new Bullet(x,y,-facing));
+			bullets.add(new Bullet(x, y, facing, Color.red));
+			bullets.add(new Bullet(x,y,-facing, Color.RED));
 		}
 		
 	}
@@ -78,7 +78,7 @@ public class finalBosos {
 	void drawBoss(Graphics g, ImageObserver image) {
 		g.drawImage(img.getImage(), x, y, height, width, image);
 		for (Bullet b : bullets)
-			b.drawShot(g);
+			b.drawShot(g, image, 2);
 	}
 	
 	void doSomething(int playerx) {
