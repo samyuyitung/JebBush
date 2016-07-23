@@ -38,9 +38,10 @@ public class AppMain implements KeyListener, ActionListener {
 			if (gameState == 1){
 				startScreen();
 				g.drawImage(startScreen.getImage(), 0, 0, this);
-			}else if(gameState == 2)
-				g.drawImage(startScreen.getImage(), 0, 0, this);
+			}else if(gameState == 2){
 				
+			}
+ 				
 		}	
 	}
 
