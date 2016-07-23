@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,13 +28,13 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon background = new ImageIcon("background.jpg");
 	ImageIcon gameOver = new ImageIcon("start.jpg");
 
-	List<Enemy> enemies = new ArrayList<>();
-	Player player = new Player(10, 450);
+	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
+	static Player player = new Player(10, 450);
 
 	TTimer timer;
 
 	int gameState = 1; // Start screen
-	int level = 1;
+	int level = 5;
 
 	public AppMain() {
 		frame.addKeyListener(this);
@@ -66,10 +67,12 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					// winConditions();
-					// block.fall();
-					// if (block.idk)
-					// block.idk = timer.fast = false;
+					for(Enemy s : enemies)
+						s.doSomething(player.x_pos);
+					for(Bullet b : Player.getBullets())
+						if(b.fly(width))
+							Player.getBullets().remove(Player.getBullets().indexOf(b));
+					
 				}
 
 				draw.repaint();
@@ -96,8 +99,11 @@ public class AppMain implements KeyListener, ActionListener {
 			
 			int i = 0;
 			while (!player.getIsDead()) {
-		
-				
+								try{
+					sleep(100);
+				} catch( Exception e) {
+					
+				}
 				if (!pause)
 					a.actionPerformed(null);
 
@@ -110,7 +116,7 @@ public class AppMain implements KeyListener, ActionListener {
 	// used to track the time ingame
 
 	void startGame() {
-		// timer.start();
+		start();
 		drawGameBoard();
 		makeEnemies(level);
 	}
@@ -139,7 +145,8 @@ public class AppMain implements KeyListener, ActionListener {
 	void makeEnemies(int level) {
 		enemies.clear();
 		for (int i = 0; i < level; i++) {
-			int xLoc = (int) Math.random() * (width - 100);
+			System.out.println("made " + i);
+			int xLoc = (int)( Math.random() * (width/2 - 20)) + (width / 2);
 			enemies.add(new Enemy(xLoc, 1));
 		}
 	}
@@ -180,7 +187,7 @@ public class AppMain implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == startButton) {
+		if (e.getSource() == startButton && gameState != 2) {
 			gameState = 2;
 			startGame();
 		}

@@ -7,6 +7,7 @@ public class Bullet {
 	private int x_pos;
 	private int y_pos;
 	private int dir;
+	private int speed = 10;
 	
 	public Bullet(int x, int y, int dir) {
 		x_pos = x;
@@ -32,4 +33,12 @@ public class Bullet {
 			return true;
 		return false;
 	}	
+	
+	boolean fly(int MAX_WIDTH){
+		x_pos += speed * dir;
+
+		if(x_pos < 0 || x_pos > MAX_WIDTH)
+			return true;
+		else return false;
+	}
 }

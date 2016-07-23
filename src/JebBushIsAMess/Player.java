@@ -5,10 +5,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 //import java.awt.Color; 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player {
 	// variables
-	private int x_pos;
+	public int x_pos;
 	private int y_pos;
 	public boolean jumping;
 	private int width;
@@ -16,9 +17,9 @@ public class Player {
 
 	private boolean isDead;
 	private int health = 10;
-	private List<Bullet> bullets = new ArrayList<>();
+	private static List<Bullet> bullets = new CopyOnWriteArrayList<>();
 
-	int facing = 0;
+	int facing = 1;
 
 	// constructor
 	Player(int x, int y) {
@@ -34,15 +35,20 @@ public class Player {
 			facing = -1;
 		else
 			facing = 1;
+		
 	}
 
 	public void moveY(int speed) {
 		y_pos += speed;
 	}
+	
+	static List<Bullet> getBullets(){
+		return bullets;
+	}
 
 	public void shootABullet() {
 		if (bullets.size() < 10)
-			bullets.add(new Bullet(x_pos, y_pos, facing));
+			bullets.add(new Bullet(x_pos + width / 2 , y_pos  + height / 2, facing));
 
 	}
 
