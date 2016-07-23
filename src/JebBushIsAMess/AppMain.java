@@ -30,9 +30,9 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon gameOver = new ImageIcon("gameover.jpg");
 	ImageIcon winScreen = new ImageIcon("winned.jpg");
 	static finalBosos finalBoss;
-
 	static List<Enemy> enemies;
 	static Player player;
+	static Hillary hillaryPlane; 
 
 	TTimer timer;
 
@@ -46,6 +46,7 @@ public class AppMain implements KeyListener, ActionListener {
 		finalBoss = new finalBosos(300, 500);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
+		hillaryPlane = new Hillary(0,70, 0);
 		level = 1;
 		win = false;
 
@@ -74,6 +75,11 @@ public class AppMain implements KeyListener, ActionListener {
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
+
+				hillaryPlane.drawHillary(g, this); 
+				
+				finalBoss.drawBoss(g, this);
+
 				if (level == BOSS_LEVEL && finalBoss.isAlive()) {
 					finalBoss.drawBoss(g, this);
 				}
@@ -117,7 +123,16 @@ public class AppMain implements KeyListener, ActionListener {
 						if (b.fly(width))
 							Player.getBullets().remove(b);
 					}
+
+					
+					hillaryPlane.doSomething();
+					if (hillaryPlane.hitGround){
+						hillaryPlane = new Hillary(0, 70, 0); 
+					}
+
+
 					if (level == BOSS_LEVEL) {
+
 
 						if (finalBoss.doSomething(player.x_pos, player.y_pos)) {
 							player.decrementHealth();
@@ -218,7 +233,7 @@ public class AppMain implements KeyListener, ActionListener {
 			enemies.add(new Enemy(xLoc, 1, width));
 		}
 	}
-
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 
