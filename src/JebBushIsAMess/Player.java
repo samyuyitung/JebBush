@@ -28,6 +28,7 @@ public class Player {
 	int invinsibleCount = 0;
 	private static List<Bullet> bullets = new CopyOnWriteArrayList<>();
 	ImageIcon trump = new ImageIcon("trump.png");
+	ImageIcon sadTrump = new ImageIcon("sadtrump.jpg");
 
 	int facing = 1;
 
@@ -62,6 +63,11 @@ public class Player {
 		}
 		if (jumping)
 			jumpTime++;
+
+		if (invinsible && invinsibleCount++  > 10) {
+			invinsible = false;
+			invinsibleCount = 0;
+		}
 	}
 
 	public void setXSpeed(int speed) {
@@ -94,15 +100,15 @@ public class Player {
 			if (health == 0)
 				isDead = true;
 		}
-		if(invinsibleCount++ > 20){
-			invinsible = false;
-					invinsibleCount = 0;
-		}
 	}
 
 	// draw the player
 	public void drawPlayer(Graphics g, ImageObserver img) {
-		g.drawImage(trump.getImage(), x_pos, y_pos, img);
+		if(invinsible)
+			g.drawImage(sadTrump.getImage(), x_pos, y_pos, img);
+			else
+			
+			g.drawImage(trump.getImage(), x_pos, y_pos, img);
 		g.setColor(Color.red);
 		g.fillRect(5, 5, health * 60, 50);
 		for (Bullet b : bullets) {

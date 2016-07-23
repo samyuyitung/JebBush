@@ -48,12 +48,12 @@ public class Enemy {
 			int dir = (int) (Math.random() * 3); // Up = 0; Left = 1; Right =
 													// true
 
-			if (dir == 0) {
+			if (dir == 0 ) {
 				y -= 100;
 				jumping = true;
 			} else if (dir == 1 && x > 20) {
 				x -= 20;
-			} else if (dir == 2 && x < MAX_WIDTH - width - 20) {
+			} else if (dir == 2 && x < (MAX_WIDTH - width - 20)) {
 				x += 20;
 			}
 		}

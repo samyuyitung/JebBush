@@ -29,10 +29,12 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon background = new ImageIcon("background.jpg");
 	ImageIcon gameOver = new ImageIcon("gameover.jpg");
 	ImageIcon winScreen = new ImageIcon("winned.jpg");
+	ImageIcon zodiac = new ImageIcon("theZodiac.jpg");
+
 	static finalBosos finalBoss;
 	static List<Enemy> enemies;
 	static Player player;
-	static Hillary hillaryPlane; 
+	static Hillary hillaryPlane;
 
 	TTimer timer;
 
@@ -40,13 +42,14 @@ public class AppMain implements KeyListener, ActionListener {
 	int level;
 	boolean win;
 
-	final int BOSS_LEVEL = 1;
+	final int BOSS_LEVEL = 6;
+	int toggle = 0;
 
 	void reset() {
 		finalBoss = new finalBosos(300, 400);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
-		hillaryPlane = new Hillary(0,70, 0);
+		hillaryPlane = new Hillary(0, 70, 0);
 		level = 1;
 		win = false;
 
@@ -76,10 +79,9 @@ public class AppMain implements KeyListener, ActionListener {
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
 
-				if(level > 5)
-					hillaryPlane.drawHillary(g, this); 
-				
-				
+				if (level > 5)
+					hillaryPlane.drawHillary(g, this);
+
 				if (level == BOSS_LEVEL && finalBoss.isAlive()) {
 					finalBoss.drawBoss(g, this);
 				}
@@ -87,11 +89,16 @@ public class AppMain implements KeyListener, ActionListener {
 
 				if (win)
 					g.drawImage(winScreen.getImage(), 0, 0, this);
-				else
-					g.drawImage(gameOver.getImage(), 0, 0, this);
+				else {
+					if (toggle++ % 500 < 250)
+						g.drawImage(gameOver.getImage(), 0, 0, this);
+					else
+						g.drawImage(zodiac.getImage(), 0, 0, this);
+				}
 			}
 		}
 	}
+
 	public void nextLevel() {
 		if (level < BOSS_LEVEL)
 			makeEnemies(++level);
@@ -102,7 +109,9 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					if (level < BOSS_LEVEL && enemies.size() == 0){ // && hillaryPlane.isDead) {
+					if (level < BOSS_LEVEL && enemies.size() == 0) { // &&
+																		// hillaryPlane.isDead)
+																		// {
 						nextLevel();
 					} else if (level == BOSS_LEVEL && !finalBoss.isAlive()) {
 						win = true;
@@ -119,26 +128,24 @@ public class AppMain implements KeyListener, ActionListener {
 								Player.getBullets().remove(b);
 							}
 						}
-						
-						if(level > 5 && b.checkHit(hillaryPlane.x,hillaryPlane.y, hillaryPlane.width, hillaryPlane.height)){
+
+						if (level > 5 && b.checkHit(hillaryPlane.x, hillaryPlane.y, hillaryPlane.width,
+								hillaryPlane.height)) {
 							hillaryPlane.isDead = true;
 							Player.getBullets().remove(b);
 						}
-						
+
 						if (b.fly(width))
 							Player.getBullets().remove(b);
 					}
 
-					if(level > 5)
-					if (hillaryPlane.hitGround){
-						hillaryPlane.goBoom();
-					}else
-						hillaryPlane.doSomething();
-					
-
+					if (level > 5)
+						if (hillaryPlane.hitGround) {
+							hillaryPlane.goBoom();
+						} else
+							hillaryPlane.doSomething();
 
 					if (level == BOSS_LEVEL) {
-
 
 						if (finalBoss.doSomething(player.x_pos, player.y_pos)) {
 							player.decrementHealth();
@@ -187,7 +194,10 @@ public class AppMain implements KeyListener, ActionListener {
 					a.actionPerformed(null);
 
 			}
-			drawGameOver();
+				drawGameOver();
+				while (gameState == 3) {
+						frame.repaint();
+			}
 		}
 	}
 
@@ -235,11 +245,11 @@ public class AppMain implements KeyListener, ActionListener {
 		enemies.clear();
 		for (int i = 0; i < level; i++) {
 			System.out.println("made " + i);
-			int xLoc = (int) (Math.random() * (width / 2 - 20)) + (width / 2);
+			int xLoc = (int) (Math.random() * (width / 3 - 40)) + (width / 3);
 			enemies.add(new Enemy(xLoc, 1, width));
 		}
 	}
-	
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 
