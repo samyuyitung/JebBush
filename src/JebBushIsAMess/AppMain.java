@@ -72,7 +72,7 @@ public class AppMain implements KeyListener, ActionListener {
 					for(Bullet b : Player.getBullets())
 						if(b.fly(width))
 							Player.getBullets().remove(Player.getBullets().indexOf(b));
-					
+					player.move();
 				}
 
 				draw.repaint();
@@ -160,12 +160,14 @@ public class AppMain implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			player.moveX(-10);
+			player.setXSpeed(-10);
 			break;
 		case KeyEvent.VK_RIGHT:
-			player.moveX(10);
+			player.setXSpeed(10);
 			break;
 		case KeyEvent.VK_UP:
+			if(!player.jumping)
+			player.setYSpeed(20);
 			break;
 
 		case KeyEvent.VK_SPACE:

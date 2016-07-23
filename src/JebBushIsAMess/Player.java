@@ -11,7 +11,10 @@ public class Player {
 	// variables
 	public int x_pos;
 	private int y_pos;
+	public int xSpeed;
+	public int ySpeed;
 	public boolean jumping;
+	int jumpTime;
 	private int width;
 	private int height;
 
@@ -28,18 +31,31 @@ public class Player {
 		width = 100;
 		height = 100;
 	}
-
-	public void moveX(int speed) {
-		x_pos += speed;
-		if (speed < 0)
+	public void move(){
+		x_pos += xSpeed;
+		if (xSpeed < 0)
 			facing = -1;
 		else
 			facing = 1;
-		
+		if(ySpeed > 0){
+		y_pos -= ySpeed;
+		ySpeed = 0;
+		} else if(jumpTime > 10){
+			y_pos += 20;
+			jumpTime = 0;
+			jumping = false;
+		}			
+		if(jumping)
+			jumpTime ++;
+	}
+	
+	public void setXSpeed(int speed) {
+		xSpeed = speed;
 	}
 
-	public void moveY(int speed) {
-		y_pos += speed;
+	public void setYSpeed(int speed) {
+		ySpeed = speed;
+		jumping = true;
 	}
 	
 	static List<Bullet> getBullets(){
