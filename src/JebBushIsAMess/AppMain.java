@@ -29,8 +29,9 @@ public class AppMain implements KeyListener, ActionListener {
 	ImageIcon gameOver = new ImageIcon("start.jpg");
 
 	List<Enemy> enemies = new ArrayList<>();
+	Player player = new Player(10,450);
 	JPanel jpane = new JPanel();
-
+	
 	TTimer timer;
 	Counter t;
 
@@ -41,6 +42,7 @@ public class AppMain implements KeyListener, ActionListener {
 		frame.add(draw);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		frame.requestFocus();
 	}
 
 	class Drawing extends JComponent {
@@ -50,6 +52,7 @@ public class AppMain implements KeyListener, ActionListener {
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 			} else if (gameState == 2) {
 				g.drawImage(background.getImage(), 0, 0, this);
+				player.drawPlayer(g);
 				for (Enemy e : enemies)
 					e.drawEnemy(g);
 			}
@@ -164,13 +167,29 @@ public class AppMain implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		switch(e.getKeyCode())
+        {
+           case KeyEvent.VK_LEFT:
+        	   player.moveX(-10);
+        	   break;
+           case KeyEvent.VK_RIGHT:
+           //   block.shift(1);
+        	   player.moveX(10);
+        	   
+              break;
+           case KeyEvent.VK_UP:
+            //  block.rotate();
+              break;
+           
+        }
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		 
 	}
 
 	public static void main(String[] args) {
