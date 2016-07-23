@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +25,10 @@ public class AppMain implements KeyListener, ActionListener {
 	JButton startButton = new JButton("start");
 
 	ImageIcon startScreen = new ImageIcon("start.jpg");
+	ImageIcon background = new ImageIcon("background.jpg");
+
+	List<Enemy> enemies = new ArrayList<>();
+	JPanel jpane = new JPanel();
 
 	public AppMain() {
 		frame.addKeyListener(this);
@@ -39,14 +45,16 @@ public class AppMain implements KeyListener, ActionListener {
 				startScreen();
 				g.drawImage(startScreen.getImage(), 0, 0, this);
 			}else if(gameState == 2){
-				
-			}
- 				
-		}	
+				g.drawImage(background.getImage(), 0, 0, this);
+				for(Enemy e : enemies)
+					e.drawEnemy(g);
+					
+			}	
+		}
+		
 	}
 
 	void startScreen() {
-		JPanel jpane = new JPanel();
 		jpane.setLayout(new GridLayout(1,1));
 		startButton.setOpaque(true);
 		startButton.setContentAreaFilled(false);
@@ -56,9 +64,14 @@ public class AppMain implements KeyListener, ActionListener {
 		frame.add(jpane);
 		frame.revalidate();
 		frame.repaint();
-
+	}
+	void drawGameBoard(){
+		frame.remove(jpane);
 	}
 
+	void makeAnEnemy(){
+		enemies.add(new Enemy(100, 1));
+	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -88,7 +101,11 @@ public class AppMain implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getSource() == startButton){
 			gameState = 2; 
+			drawGameBoard();
+			makeAnEnemy();
 		}
-		frame.repaint();
+		frame.revalidate();
+	      frame.repaint();
+
 	}
 }
