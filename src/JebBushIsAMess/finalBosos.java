@@ -69,8 +69,8 @@ public class finalBosos {
 	
 	void shoot() {
 		if (bullets.size() < 10) {
-			bullets.add(new Bullet(x, y, facing, Color.red));
-			bullets.add(new Bullet(x,y,-facing, Color.RED));
+			bullets.add(new Bullet(x, y, facing, 2));
+			bullets.add(new Bullet(x,y,-facing, 2));
 		}
 		
 	}

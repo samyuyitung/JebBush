@@ -38,6 +38,12 @@ public class Player {
 		MAX_WIDTH = width;
 	}
 	public void move(){
+		if(x_pos < 0) {
+			x_pos = 0;
+		}
+		else if (x_pos > MAX_WIDTH - width) {
+			x_pos = MAX_WIDTH- width;
+		}
 		x_pos += xSpeed;
 		if (xSpeed < 0)
 			facing = -1;
@@ -84,7 +90,8 @@ public class Player {
 	// draw the player
 	public void drawPlayer(Graphics g, ImageObserver img) {
 		g.drawImage(trump.getImage(), x_pos, y_pos, img);
-
+		
+		g.fillRect(5,5, health * 10, 50);
 		for (Bullet b : bullets) {
 			b.drawShot(g, img, b.dir);
 		}
