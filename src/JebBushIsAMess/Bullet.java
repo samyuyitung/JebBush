@@ -12,7 +12,7 @@ public class Bullet {
 	private int x_pos;
 	private int y_pos;
 	public int dir;
-	private int xSpeed = 20;
+	private int xSpeed = 30;
 	private int ySpeed = 10;
 	int ground = 550;
 	int time = 0;
@@ -55,16 +55,15 @@ public class Bullet {
 		g.drawImage(image, x_pos - 13, y_pos - 13, img);
 	}
 
-	public boolean checkPlayerHit(int obj_x, int obj_y){
+	public boolean checkHit(int obj_x, int obj_y, int obj_w, int obj_h){
 		//above or below
-		if(x_pos <= obj_x + 80 && //far right 
+		if(x_pos <= obj_x + obj_w && //far right 
 		   x_pos + width >= obj_x && //far left
-		   y_pos <= obj_y + 100 && //bottom
+		   y_pos <= obj_y + obj_h && //bottom
 		   y_pos + height >= obj_y) // top
 			return true;
 		return false;
 	}
-
 	int deltaY() {
 		return (int) (ySpeed * time + 0.5 * -2 * Math.pow(time, 2));
 	}

@@ -34,8 +34,8 @@ public class Enemy {
 	void setHeightAndWidth(int type) {
 		switch (type) {
 		case 1:
-			height = 60;
-			width = 100;
+			height = 80;
+			width = 60;
 			break;
 		}
 	}
@@ -93,7 +93,7 @@ public class Enemy {
 		if (thing == 0)
 			shoot();
 		for (Bullet b : bullets) {
-			if (b.checkPlayerHit(playerx, playery)){
+			if (b.checkHit(playerx, playery, 80,100)){
 				bullets.remove(b);
 				System.out.println("hit");
 				return true;
