@@ -43,11 +43,11 @@ public class AppMain implements KeyListener, ActionListener {
 	final int BOSS_LEVEL = 10;
 
 	void reset() {
-		finalBoss = new finalBosos(300, 500);
+		finalBoss = new finalBosos(300, 400);
 		enemies = new CopyOnWriteArrayList<>();
 		player = new Player(10, 450, width);
 		hillaryPlane = new Hillary(0,70, 0);
-		level = 1;
+		level = 9;
 		win = false;
 
 	}
@@ -76,7 +76,8 @@ public class AppMain implements KeyListener, ActionListener {
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
 
-				hillaryPlane.drawHillary(g, this); 
+				if(level > 5)
+					hillaryPlane.drawHillary(g, this); 
 				
 				
 				if (level == BOSS_LEVEL && finalBoss.isAlive()) {
@@ -101,7 +102,7 @@ public class AppMain implements KeyListener, ActionListener {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
-					if (level < BOSS_LEVEL && enemies.size() == 0 && hillaryPlane.isDead) {
+					if (level < BOSS_LEVEL && enemies.size() == 0){ // && hillaryPlane.isDead) {
 						nextLevel();
 					} else if (level == BOSS_LEVEL && !finalBoss.isAlive()) {
 						win = true;
@@ -118,7 +119,8 @@ public class AppMain implements KeyListener, ActionListener {
 								Player.getBullets().remove(b);
 							}
 						}
-						if(b.checkHit(hillaryPlane.x,hillaryPlane.y, hillaryPlane.width, hillaryPlane.height)){
+						
+						if(level > 5 && b.checkHit(hillaryPlane.x,hillaryPlane.y, hillaryPlane.width, hillaryPlane.height)){
 							hillaryPlane.isDead = true;
 							Player.getBullets().remove(b);
 						}
@@ -127,11 +129,12 @@ public class AppMain implements KeyListener, ActionListener {
 							Player.getBullets().remove(b);
 					}
 
-					
-					hillaryPlane.doSomething();
+					if(level > 5)
 					if (hillaryPlane.hitGround){
-						hillaryPlane = new Hillary(0, 70, 0); 
-					}
+						hillaryPlane.goBoom();
+					}else
+						hillaryPlane.doSomething();
+					
 
 
 					if (level == BOSS_LEVEL) {
