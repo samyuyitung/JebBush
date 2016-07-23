@@ -30,6 +30,7 @@ public class AppMain implements KeyListener, ActionListener {
 
 	static List<Enemy> enemies = new CopyOnWriteArrayList<>();
 	static Player player = new Player(10, 450, width);
+	static finalBosos finalBoss = new finalBosos(300, 500);
 
 	TTimer timer;
 
@@ -56,6 +57,7 @@ public class AppMain implements KeyListener, ActionListener {
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
+				finalBoss.drawBoss(g, this);
 			} else if (gameState == 3) {
 				g.drawImage(gameOver.getImage(), 0, 0, this);
 			}
@@ -83,6 +85,7 @@ public class AppMain implements KeyListener, ActionListener {
 						if (b.fly(width))
 							Player.getBullets().remove(b);
 					}
+					finalBoss.doSomething(player.x_pos);
 
 				}
 

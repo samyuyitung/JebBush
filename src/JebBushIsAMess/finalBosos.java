@@ -76,7 +76,9 @@ public class finalBosos {
 	}
 	
 	void drawBoss(Graphics g, ImageObserver image) {
+		g.drawImage(img.getImage(), x, y + width, height, width + 20, image);
 		g.drawImage(img.getImage(), x, y, height, width, image);
+		g.drawImage(img.getImage(), x + 10, y - width/2, height - 20, width - 20, image);
 		for (Bullet b : bullets)
 			b.drawShot(g, image, 2);
 	}
