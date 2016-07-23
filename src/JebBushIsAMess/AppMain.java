@@ -64,11 +64,16 @@ public class AppMain implements KeyListener, ActionListener {
 		}
 
 	}
-
+	public void nextLevel(){
+		makeEnemies(level++);
+	}
 	public void start() {
 		timer = new TTimer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (timer) {
+					if(enemies.size() == 0){
+						nextLevel();
+					}
 					player.move();
 					for (Enemy s : enemies)
 						if (s.doSomething(player.x_pos, player.y_pos))
@@ -111,7 +116,6 @@ public class AppMain implements KeyListener, ActionListener {
 
 		public void run() {
 
-			int i = 0;
 			while (!player.getIsDead()) {
 				try {
 					sleep(100);
