@@ -53,7 +53,7 @@ public class Player {
 		y_pos -= ySpeed;
 		ySpeed = 0;
 		} else if(jumpTime > 10){
-			y_pos += 20;
+			y_pos += 50;
 			jumpTime = 0;
 			jumping = false;
 		}			
@@ -86,12 +86,14 @@ public class Player {
 
 	public void decrementHealth(){
 		health --;
+		if(health == 0)
+			isDead = true;
 	}
 	// draw the player
 	public void drawPlayer(Graphics g, ImageObserver img) {
 		g.drawImage(trump.getImage(), x_pos, y_pos, img);
-		
-		g.fillRect(5,5, health * 10, 50);
+		g.setColor(Color.red);
+		g.fillRect(5,5, health * 60, 50);
 		for (Bullet b : bullets) {
 			b.drawShot(g, img, b.dir);
 		}

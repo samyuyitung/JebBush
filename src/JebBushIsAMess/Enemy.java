@@ -80,7 +80,7 @@ public class Enemy {
 	}
 
 	void shoot() {
-		if (bullets.size() < 2)
+		if (bullets.size() < 1)
 			bullets.add(new Bullet(x, y, facing, 2));
 
 	}
