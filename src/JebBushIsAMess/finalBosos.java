@@ -82,7 +82,7 @@ public class finalBosos {
 		g.drawImage(img.getImage(), x + 10, y - height/2, height - 20, width - 20, image);
 		g.fillRect(x, y - 80, health * 10, 20);
 		for (Bullet b : bullets)
-			b.drawShot(g, image, 2);
+			b.drawShot(g, image, 3);
 	}
 	
 	boolean doSomething(int playerx, int playery) {

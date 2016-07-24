@@ -19,6 +19,7 @@ public class Bullet {
 	ImageIcon poo = new ImageIcon("Poop.png");
 	ImageIcon broomL = new ImageIcon("broomL.png");
 	ImageIcon broomR = new ImageIcon("broomR.png");
+	ImageIcon nineEleven = new ImageIcon("nineoneone.jpg");
 	Image ico;
 	int type;
 	int width;
@@ -55,6 +56,8 @@ public class Bullet {
 			image = broomR.getImage();
 		else if (type == 2)
 			image = poo.getImage();
+		else if (type==3)
+			image = nineEleven.getImage();
 		g.drawImage(image, x_pos - 13, y_pos - 13, img);
 	}
 
