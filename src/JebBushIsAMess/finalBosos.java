@@ -17,7 +17,9 @@ public class finalBosos {
 	int facing = -1;
 	boolean jumping;
 	List<Bullet> bullets = new CopyOnWriteArrayList<>();
-	ImageIcon img = new ImageIcon("jeb-bush.jpg");
+	ImageIcon jeb = new ImageIcon("jeb-bush.jpg");
+	ImageIcon bush = new ImageIcon("george_w_bush3.jpg");
+	ImageIcon bushSr = new ImageIcon("george-bush-sr.jpg");
 	private int health = 5;
 	
 	
@@ -77,9 +79,9 @@ public class finalBosos {
 	}
 	
 	void drawBoss(Graphics g, ImageObserver image) {
-		g.drawImage(img.getImage(), x, y + height, height, width + 20, image);
-		g.drawImage(img.getImage(), x, y, height, width, image);
-		g.drawImage(img.getImage(), x + 10, y - height/2, height - 20, width - 20, image);
+		g.drawImage(jeb.getImage(), x, y + height, height, width + 20, image);
+		g.drawImage(bush.getImage(), x, y, height, width, image);
+		g.drawImage(bushSr.getImage(), x + 10, y - height/2, height - 20, width - 20, image);
 		g.fillRect(x, y - 80, health * 10, 20);
 		for (Bullet b : bullets)
 			b.drawShot(g, image, 3);
