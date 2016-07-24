@@ -32,14 +32,14 @@ public class Bullet {
 		this.dir = dir;
 		this.type = type;
 		if (type == 1) {
-			if (dir == -1){
+			if (dir == -1) {
 				ico = broomL.getImage();
 				offset = 50;
-			}else if (type == 1 && dir == 1)
+			} else if (type == 1 && dir == 1)
 				ico = broomR.getImage();
 			width = 20;
 			height = 20;
-			
+
 		} else {
 			ico = poo.getImage();
 			width = height = 25;
@@ -56,20 +56,21 @@ public class Bullet {
 			image = broomR.getImage();
 		else if (type == 2)
 			image = poo.getImage();
-		else if (type==3)
+		else if (type == 3)
 			image = nineEleven.getImage();
 		g.drawImage(image, x_pos - 13, y_pos - 13, img);
 	}
 
-	public boolean checkHit(int obj_x, int obj_y, int obj_w, int obj_h){
-		//above or below
-		if(x_pos + offset <= obj_x + obj_w && //far right 
-		   x_pos + width  + offset >= obj_x && //far left
-		   y_pos <= obj_y + obj_h && //bottom
-		   y_pos + height >= obj_y) // top
+	public boolean checkHit(int obj_x, int obj_y, int obj_w, int obj_h) {
+		// above or below
+		if (x_pos + offset <= obj_x + obj_w && // far right
+				x_pos + width + offset >= obj_x && // far left
+				y_pos <= obj_y + obj_h && // bottom
+				y_pos + height >= obj_y) // top
 			return true;
 		return false;
 	}
+
 	int deltaY() {
 		return (int) (ySpeed * time + 0.5 * -2 * Math.pow(time, 2));
 	}

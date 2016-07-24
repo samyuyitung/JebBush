@@ -20,12 +20,12 @@ public class finalBosos {
 	ImageIcon jeb = new ImageIcon("jeb-bush.jpg");
 	ImageIcon bush = new ImageIcon("george_w_bush3.jpg");
 	ImageIcon bushSr = new ImageIcon("george-bush-sr.jpg");
-	private int health = 5;
+	private int health = 10;
 	
 	
 	finalBosos(int xPos, int yPos) {
-		int size = (int) (Math.random() *5) + 5;
-		int type = (int) (Math.random() *5) + 5;
+		int size = (int) (Math.random() *5) + 10;
+		int type = (int) (Math.random() *5) + 10;
 		
 		height = size * type;
 		width = size * type;

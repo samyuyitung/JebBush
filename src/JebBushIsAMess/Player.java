@@ -64,7 +64,7 @@ public class Player {
 		if (jumping)
 			jumpTime++;
 
-		if (invinsible && invinsibleCount++  > 10) {
+		if (invinsible && invinsibleCount++  > 5) {
 			invinsible = false;
 			invinsibleCount = 0;
 		}

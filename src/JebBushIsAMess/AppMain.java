@@ -1,6 +1,7 @@
 package JebBushIsAMess;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -42,8 +43,12 @@ public class AppMain implements KeyListener, ActionListener {
 	int level;
 	boolean win;
 
-	final int BOSS_LEVEL = 8;
+	final int BOSS_LEVEL = 6;
 	int toggle = 0;
+	List<String> killQuotes = new ArrayList<>();
+	boolean rektedTed = false;
+	int killQuoteTime = 0;
+	int quoteNum;
 
 	void reset() {
 		finalBoss = new finalBosos(300, 400);
@@ -56,6 +61,16 @@ public class AppMain implements KeyListener, ActionListener {
 	}
 
 	public AppMain() {
+		killQuotes.add("JEB IS A BIG FAT MESS");
+		killQuotes.add("Barack Obama’s birth certificate is a fraud");
+		killQuotes.add("Sorry, there is no STAR on the stage tonight!");
+		killQuotes.add("I have never seen a thin person drinking Diet Coke.");
+		killQuotes.add("It’s freezing and snowing in New York – we need global warming!");
+		killQuotes.add("politics is such a disgrace");
+		killQuotes.add("Thanks sweetie. That’s nice");
+		killQuotes.add("Be careful, Lyin' Ted, or I will spill the beans on your wife!");
+		killQuotes.add("We need to build a big beautiful wall!");
+
 		frame.addKeyListener(this);
 		frame.setSize(width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,12 +89,21 @@ public class AppMain implements KeyListener, ActionListener {
 
 				g.drawImage(background.getImage(), 0, 0, this);
 				g.setColor(Color.black);
-				g.drawString("Level: " + level, 10, 700);
+				g.setFont(new Font("Comic Sans MS", Font.BOLD, 48));
+				g.drawString("LEVEL: " + level, 0, 100);
+				if (rektedTed && killQuoteTime++ < 40) {
+					g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+					g.drawString(killQuotes.get(quoteNum), player.x_pos, player.y_pos - 20);
+				}
+				if (killQuoteTime > 40) {
+					killQuoteTime = 0;
+					rektedTed = false;
+				}
 				player.drawPlayer(g, this);
 				for (Enemy e : enemies)
 					e.drawEnemy(g, this);
 
-				if (level > 5)
+				if (level > 3)
 					hillaryPlane.drawHillary(g, this);
 
 				if (level == BOSS_LEVEL && finalBoss.isAlive()) {
@@ -90,11 +114,12 @@ public class AppMain implements KeyListener, ActionListener {
 				if (win)
 					g.drawImage(winScreen.getImage(), 0, 0, this);
 				else {
-					if (toggle++ % 500 < 250)
+					if (toggle++ % 800 < 400)
 						g.drawImage(gameOver.getImage(), 0, 0, this);
 					else
 						g.drawImage(zodiac.getImage(), 0, 0, this);
 				}
+
 			}
 		}
 	}
@@ -125,11 +150,13 @@ public class AppMain implements KeyListener, ActionListener {
 						for (Enemy s : enemies) {
 							if (b.checkHit(s.x, s.y, s.width, s.height)) {
 								enemies.remove(s);
+								rektedTed = true;
+								quoteNum = (int) (Math.random() * 5);
 								Player.getBullets().remove(b);
 							}
 						}
 
-						if (level > 5 && b.checkHit(hillaryPlane.x, hillaryPlane.y, hillaryPlane.width,
+						if (level > 3 && b.checkHit(hillaryPlane.x, hillaryPlane.y, hillaryPlane.width,
 								hillaryPlane.height)) {
 							hillaryPlane.isDead = true;
 							Player.getBullets().remove(b);
@@ -139,7 +166,7 @@ public class AppMain implements KeyListener, ActionListener {
 							Player.getBullets().remove(b);
 					}
 
-					if (level > 5)
+					if (level > 3)
 						if (hillaryPlane.hitGround) {
 							hillaryPlane.goBoom();
 						} else
@@ -194,9 +221,9 @@ public class AppMain implements KeyListener, ActionListener {
 					a.actionPerformed(null);
 
 			}
-				drawGameOver();
-				while (gameState == 3) {
-						frame.repaint();
+			drawGameOver();
+			while (gameState == 3) {
+				frame.repaint();
 			}
 		}
 	}
