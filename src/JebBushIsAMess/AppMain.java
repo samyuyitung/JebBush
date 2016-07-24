@@ -42,7 +42,7 @@ public class AppMain implements KeyListener, ActionListener {
 	int level;
 	boolean win;
 
-	final int BOSS_LEVEL = 6;
+	final int BOSS_LEVEL = 8;
 	int toggle = 0;
 
 	void reset() {
