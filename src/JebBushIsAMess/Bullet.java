@@ -32,11 +32,12 @@ public class Bullet {
 		this.dir = dir;
 		this.type = type;
 		if (type == 1) {
-			if (dir == -1) {
+			if (dir == -1) 
 				ico = broomL.getImage();
-				offset = 50;
-			} else if (type == 1 && dir == 1)
+			 else if (type == 1 && dir == 1){
 				ico = broomR.getImage();
+			offset = 50;
+			}
 			width = 20;
 			height = 20;
 
@@ -58,7 +59,7 @@ public class Bullet {
 			image = poo.getImage();
 		else if (type == 3)
 			image = nineEleven.getImage();
-		g.drawImage(image, x_pos - 13, y_pos - 13, img);
+		g.drawImage(image, x_pos, y_pos, img);
 	}
 
 	public boolean checkHit(int obj_x, int obj_y, int obj_w, int obj_h) {
