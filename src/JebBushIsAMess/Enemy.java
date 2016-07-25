@@ -23,12 +23,11 @@ public class Enemy {
 
 	Enemy(int ax, int atype, int width) {
 		x = ax;
-		setHeightAndWidth(type);
+		setHeightAndWidth(atype);
 		y = 450 - height;
 		type = atype;
 		jumping = false;
 		MAX_WIDTH = width;
-
 	}
 	
 	void setHeightAndWidth(int type) {
